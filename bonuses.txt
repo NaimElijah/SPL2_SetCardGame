@@ -1,0 +1,52 @@
+BONUS CHALLENGE FORM
+--------------------
+
+For each bonus challenge you have implemented, please replace the sentence "We are not entitled to this bonus."
+with a short description of:
+
+1. How it was implemented in your code
+2. Where it was used (in which class methods).
+3. How you tested that it is working correctly.
+
+--------------------
+
+1. Fully supporting all configuration fields and avoiding the use of magic numbers
+
+It was implemented in our code by the fact that everytime we needed to(everywhere) set a number that resembles something(size of, length of, number of iterations of...), we didn't just
+put the number as it is(we didn't put: 0,1,2...- magic numbers), we used the env.config.[what we needed to resemble] to get the number we wanted.
+We also supported all configuration fields in the Config, by making sure we use them and they impact our game, in short, we used them for the amount of delay before closing
+the game(in dealer's terminate()), if we want to display hints(in dealer's updateTimerDisplay), these information are in the config, so we used them.
+ We tested with log.info's that everything was made where we wanted it to and also that it does what we wanted it to do, as well as of course running the game and checking end scenarios.
+
+--------------------
+
+2. Terminating all threads (that you created) gracefully and in reverse order to the order they were created in.
+
+It was implemented in our code by the fact that in the Dealer's run() we iterated over the players and started each of their threads in the player's order and when it was time for these
+threads to be terminated, in the Dealer's terminate() we used each of the player's terminate() in the player's order(we did it gracefully by not using stop() on the threads, we used interrupt()
+ instead). We tested with log.info's that everything was made where we wanted it to and also that it does what we wanted it to do, as well as of course running 
+ the game and checking end scenarios.
+
+--------------------
+
+3. Handling the config.turnTimeoutMillis value as follows:
+config.turnTimeoutMillis < 0: display nothing.
+config.turnTimeoutMillis = 0: display a timer since the last action (reshuffle or set collected).
+Note: in modes without a countdown timer the dealer must ensure there is always at least one legal set on the table.
+
+We are not entitled to this bonus.
+
+--------------------
+
+4. Making sure that the threads do not wake up unless some actual job needs to be done (e.g., a value needs to be
+changed on the display, key input needs to be handled, etc.) and the only threads created by you are:
+1 thread per player + 1 additional thread for non-human players.
+
+(in the middle of the Player's run())We made it so that the player thread is blocked and doesn't run if there isn't any input of actions in the keys3last_pressed_queue(actions queue), when 
+there is something in the actions queue(keys3last_pressed_queue), it wakes up and continues, we did that by using the take() method of the arrayblockingqueue. We tested with 
+log.info's that everything was made where we wanted it to and also that it does what we wanted it to do, as well as of course running the game and checking end scenarios.
+We also made the dealer wait(wait_time) in order that he won't busy wait, and used wait and notify in a way that he waits wait(wait_time) in the sleepUntilWokenOrTimeout() in dealer
+and if a player has a set that he wants the dealer to check he will notify him(in the code it's near the end of the player's run() method).
+We also made it so the player waits for the dealer to check his set.(in the code, it's near the end of the player's run() method).
+Another part of the bonus we did is making it so that the only threads we created were the player's threads and the AI thread for each of them like clearified in the forum.
+We tested with log.info's that everything was made where we wanted it to and also that it does what we wanted it to do, as well as of course running the game and checking end scenarios.
